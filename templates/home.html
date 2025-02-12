@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Environmental Risk Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Simple fade-in animation for smooth loading effects */
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-in-up {
+        animation: fadeInUp 0.8s ease-out;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold text-green-700">🌍 ERA</a>
+        <div>
+          <a href="#how-it-works" class="text-gray-600 hover:text-green-700 mx-3">How It Works</a>
+          <a href="#example-topics" class="text-gray-600 hover:text-green-700 mx-3">Topics</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-12">
+      <!-- Hero Section -->
+      <section class="text-center mb-12 fade-in-up">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-800 mb-4">
+          Environmental Risk Analysis
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 mb-8">
+          Discover and analyze environmental risks with real-time news insights and visual data.
+        </p>
+        <div class="flex justify-center">
+          <form
+            action="/"
+            method="post"
+            class="flex flex-col sm:flex-row items-center bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl"
+          >
+            <input
+              type="text"
+              name="topic"
+              id="topic"
+              placeholder="e.g., Climate Change"
+              required
+              class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200 mb-4 sm:mb-0 sm:mr-4"
+            />
+            <button
+              type="submit"
+              class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-2 rounded-md transition duration-200"
+            >
+              Analyze
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section id="how-it-works" class="mb-12 fade-in-up">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">How It Works</h2>
+          <ol class="list-decimal list-inside space-y-2 text-gray-600">
+            <li>Enter an environmental topic.</li>
+            <li>
+              Our system retrieves the latest news articles and extracts key environmental risks.
+            </li>
+            <li>Receive detailed risk analysis with visual charts and insights.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Example Topics Section -->
+      <section id="example-topics" class="fade-in-up">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">Example Topics</h2>
+          <ul class="list-disc list-inside space-y-2 text-gray-600">
+            <li>
+              <strong>Climate Change:</strong> Global warming, rising sea levels, extreme weather events.
+            </li>
+            <li>
+              <strong>Air Pollution:</strong> Industrial emissions, smog, urban air quality concerns.
+            </li>
+            <li>
+              <strong>Water Scarcity:</strong> Droughts, water shortages, resource management challenges.
+            </li>
+            <li>
+              <strong>Deforestation:</strong> Loss of forests, biodiversity impacts, habitat destruction.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-inner py-4">
+      <div class="container mx-auto px-6 text-center text-gray-600">
+        © 2025 Environmental Risk Analysis. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>

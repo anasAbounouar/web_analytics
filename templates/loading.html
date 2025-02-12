@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="Interactive mini-game while analyzing environmental risks. Enjoy the game while we load your results."
+    />
+    <title>Analyzing Environmental Risks...</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- p5.js for interactive animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <style>
+      /* Background gradient to set the mood */
+      body {
+        background: linear-gradient(to right, #dbeafe, #d1fae5);
+      }
+    </style>
+    <script>
+      // Poll the backend for processing status and redirect when done
+      async function pollStatus() {
+        try {
+          const response = await fetch("/process/{{ topic }}");
+          const data = await response.json();
+          if (data.status === "done") {
+            window.location.href = "/results/{{ topic }}";
+          } else {
+            // Continue polling every 2 seconds if not done
+            setTimeout(pollStatus, 2000);
+          }
+        } catch (error) {
+          console.error("Error fetching process status:", error);
+          // Retry after a delay in case of an error
+          setTimeout(pollStatus, 2000);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Start polling after a short delay
+        setTimeout(pollStatus, 1000);
+      });
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col items-center justify-center">
+    <header class="text-center mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-800">
+        Analyzing Environmental Risks...
+      </h1>
+      <p class="text-lg text-gray-600">
+        Enjoy a fun interactive game while we load your results!
+      </p>
+    </header>
+
+    <!-- Main container for the p5.js canvas -->
+    <main id="sketch-container" class="w-full  mx-auto"></main>
+
+    <!-- p5.js Interactive Mini-Game Script -->
+    <script>
+      const bubbles = [];
+      const particles = [];
+      let canvas;
+
+      function setup() {
+        // Create a canvas that spans the full width with a fixed height
+        canvas = createCanvas(windowWidth, 400);
+        canvas.parent("sketch-container");
+
+        // Initialize bubbles with random properties
+        for (let i = 0; i < 15; i++) {
+          bubbles.push(
+            new Bubble(
+              random(width),
+              random(height),
+              random(20, 50),
+              random(1, 3)
+            )
+          );
+        }
+      }
+
+      function draw() {
+        // Semi-transparent blue background for a fluid effect
+        background(30, 144, 255, 50);
+
+        // Update and display each bubble
+        for (const bubble of bubbles) {
+          bubble.update();
+          bubble.display();
+        }
+
+        // Update and display particles from popped bubbles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          particles[i].update();
+          particles[i].display();
+          if (particles[i].isFinished()) {
+            particles.splice(i, 1);
+          }
+        }
+      }
+
+      function mousePressed() {
+        // Check if any bubble was clicked (i.e., popped)
+        for (let i = bubbles.length - 1; i >= 0; i--) {
+          if (bubbles[i].isClicked(mouseX, mouseY)) {
+            const { x, y } = bubbles[i];
+            // Create a burst of particles at the bubble's location
+            for (let j = 0; j < 20; j++) {
+              particles.push(new Particle(x, y));
+            }
+            // Remove the clicked bubble and add a new one at the bottom
+            bubbles.splice(i, 1);
+            bubbles.push(
+              new Bubble(random(width), height + 50, random(20, 50), random(1, 3))
+            );
+            break;
+          }
+        }
+      }
+
+      function windowResized() {
+        resizeCanvas(windowWidth, 400);
+      }
+
+      // Bubble class: Floating circles that the user can pop
+      class Bubble {
+        constructor(x, y, r, speed) {
+          this.x = x;
+          this.y = y;
+          this.r = r;
+          this.speed = speed;
+        }
+        update() {
+          this.y -= this.speed;
+          // Reset bubble position if it moves off the top of the canvas
+          if (this.y < -this.r) {
+            this.y = height + this.r;
+            this.x = random(width);
+          }
+        }
+        display() {
+          stroke(255);
+          strokeWeight(2);
+          fill(173, 216, 230, 150);
+          ellipse(this.x, this.y, this.r * 2);
+        }
+        isClicked(mx, my) {
+          return dist(mx, my, this.x, this.y) < this.r;
+        }
+      }
+
+      // Particle class: Creates a burst effect when a bubble is popped
+      class Particle {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.vx = random(-2, 2);
+          this.vy = random(-2, -5);
+          this.alpha = 255;
+          this.size = random(4, 8);
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.alpha -= 5;
+        }
+        display() {
+          noStroke();
+          fill(255, this.alpha);
+          ellipse(this.x, this.y, this.size);
+        }
+        isFinished() {
+          return this.alpha <= 0;
+        }
+      }
+    </script>
+  </body>
+</html>
