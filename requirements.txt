@@ -167,3 +167,4 @@ zope.event==5.0
 zope.interface==6.4.post2
 gunicorn==20.1.0
 groq==0.18.0
+seaborn==0.12.2
