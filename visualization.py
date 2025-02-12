@@ -2,11 +2,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import matplotlib
+import os
 
 
 matplotlib.use("Agg")
 
-matplotlib.rcParams["font.family"] = "Arial Unicode MS"
+matplotlib.rcParams["font.family"] = "DejaVu Sans"
 
 def generate_risk_bar_chart(risk_items):
     """
@@ -33,7 +34,7 @@ def generate_risk_bar_chart(risk_items):
     plt.ylabel("Severity Level")
     plt.title("Environmental Risk Assessment")
     plt.tight_layout()
-
+    os.makedirs("static", exist_ok=True)
     plt.savefig("static/risk_chart.png")
     print("✅ Risk chart generated and saved successfully.")
 
