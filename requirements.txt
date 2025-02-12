@@ -165,3 +165,4 @@ xmltodict==0.14.2
 zipp==3.11.0
 zope.event==5.0
 zope.interface==6.4.post2
+gunicorn==20.1.0
